@@ -306,6 +306,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'noahfrederick/vim-hemisu'
+Plugin 'rodnaph/vim-color-schemes'
 Plugin 'scrooloose/nerdtree'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'powerline/powerline' , {'rtp': 'powerline/bindings/vim/'}
