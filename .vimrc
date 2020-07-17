@@ -53,16 +53,6 @@ set cursorcolumn
 
 "Setting up custom behaviours""""""""""""""""""""""""""""""""""""""""""""""""
 
-"Setting up the Colorscheme for GUI and Terminal"""""""""""""""""""""""""""
-if has("gui_running")
-  syntax on
-  colorscheme hemisu
-  set background=light
-else
-      syntax on
-      set t_Co=256
-      colorscheme murphy
-endif
 
 "Setting up search behaviour"""""""""""""""""""""""""""""""""""""""""""""""""
 set incsearch
@@ -300,8 +290,16 @@ nnoremap <leader>ru :call UmlauteHerausnehmen() <cr>
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+"if has('win32') || has('win64')
+"		set runtimepath^=~/.vim
+"endif
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+set rtp+=~/.vim/bundle/vim-hemisu/colors
+
+
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -326,6 +324,18 @@ filetype plugin indent on    " required
 
 au FileType c set makeprg=gcc\ %
 
+"Setting up the Colorscheme for GUI and Terminal"""""""""""""""""""""""""""
+if has("gui_running")
+  syntax on
+  colorscheme hemisu
+  set background=light
+else
+      syntax on
+      set t_Co=256
+      colorscheme murphy
+endif
+
+
 "Setting up Plugins""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:pymode_python = 'python3'
 
@@ -336,6 +346,10 @@ if has("gui_running")
    if s:uname == "Darwin\n"
       set guifont=Inconsolata\ for\ Powerline:h15
       let g:Powerline_symbols = "fancy"
+   endif
+   if has('win32') || has ('win64')
+		   set guifont=Inconsolata_for_Powerline:h12:W500:cANSI:qDRAFT
+		   let g:Powerlin_symbols= "fancy"
    endif
 endif
 
