@@ -49,7 +49,7 @@ set showbreak=↪
 "Set CursorLine and Cursorcolumn """"""""""""""""""""""""""""""""""""""""""
 set cursorline
 set cursorcolumn
-"set colorcolumn=80
+"set colorcolumn=81
 
 "Setting up custom behaviours""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -290,16 +290,10 @@ nnoremap <leader>ru :call UmlauteHerausnehmen() <cr>
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-"if has('win32') || has('win64')
-"		set runtimepath^=~/.vim
-"endif
-
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 set rtp+=~/.vim/bundle/vim-hemisu/colors
-
-
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -348,8 +342,8 @@ if has("gui_running")
       let g:Powerline_symbols = "fancy"
    endif
    if has('win32') || has ('win64')
-		   set guifont=Inconsolata_for_Powerline:h12:W500:cANSI:qDRAFT
-		   let g:Powerlin_symbols= "fancy"
+       set guifont=Inconsolata_for_Powerline:h12:W500:cANSI:qDRAFT
+       let g:Powerlin_symbols= "fancy"
    endif
 endif
 
