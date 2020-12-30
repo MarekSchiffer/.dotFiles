@@ -26,7 +26,23 @@ vnoremap <down> <Nop>
 vnoremap <left> <Nop>
 vnoremap <right> <Nop>
 vnoremap <up> <Nop>
-" Mapping
+
+" Mapping for ESC key, Touchbar Sucks
+" visual and select mode
+vmap § <esc>
+" insert mode
+imap § <esc>
+" normal mode
+nmap § <esc>
+" Visual mode
+xmap § <esc>
+" Command-line mode
+cmap § <esc>
+"vmap jj <esc>
+"imap jj <esc>
+"nmap jj<esc>
+
+"<leader>§
 
 "Automatic reloading of .vimrc
 autocmd! bufwritepost .vimrc source %
@@ -41,6 +57,7 @@ set laststatus=2
 set history=1000
 set undolevels=1000
 
+set belloff=all
 set list
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set showbreak=↪
@@ -311,6 +328,7 @@ Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 
 Plugin 'MarekSchiffer/Silverfast_IPTCData_Creator'
+"Plugin 'L-TChen/auto-dark-mode.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -326,9 +344,14 @@ if has("gui_running")
 else
       syntax on
       set t_Co=256
-      colorscheme murphy
+      "colorscheme murphy
+      colorscheme hemisu
+	  set background=dark
+      "colorscheme peachpuff "George Hotz Ugly as fuck!
+	  highlight Comment ctermfg=white
+	  set mouse=
+	  set ttymouse=
 endif
-
 
 "Setting up Plugins""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:pymode_python = 'python3'
@@ -384,6 +407,6 @@ augroup END
 augroup ft_cpp
     au!
     au FileType cpp setlocal foldmethod=marker foldmarker={,}
-    au FileType cpp setlocal ts=8 sts=8 sw=8 noexpandtab
+    au FileType cpp setlocal ts=4 sts=4 sw=8 noexpandtab
 augroup END
 
