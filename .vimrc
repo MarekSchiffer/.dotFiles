@@ -311,6 +311,9 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 set rtp+=~/.vim/bundle/vim-hemisu/colors
 set rtp+=~/.vim/bundle/Vundle.vim
+if has('win32') || has ('win64')
+    set rtp+=$HOME\.vim\bundle\powerline\powerline\bindings\vim
+endif
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -379,7 +382,9 @@ let g:tex_flavor='latex'
 
 let g:LatexBox_latexmk_async=1
 let g:LatexBox_latexmk_preview_continuously=1
-
+let g:LatexBox_quickfix=2
+"let g:Tex_GotoError=0    "Prevent LaTeX tmk to jump intro Warning split
+"let g:Tex_GotoWarning=0    "Prevent LaTeX tmk to jump intro Warning split
 "Filespecific Settings"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Assembly
 
