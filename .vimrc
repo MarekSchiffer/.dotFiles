@@ -44,6 +44,9 @@ cmap § <esc>
 
 "<leader>§
 
+" Snimpate new parser
+let g:snipMate = { 'snippet_version' : 1 }
+
 "Automatic reloading of .vimrc
 autocmd! bufwritepost .vimrc source %
 "Allowing Plugins to be used"""""""""""""""""""""""""""""""""""""""""""""""
@@ -370,6 +373,7 @@ if has("gui_running")
    if has('win32') || has ('win64')
        set guifont=Inconsolata_for_Powerline:h12:W500:cANSI:qDRAFT
        let g:Powerlin_symbols= "fancy"
+	   set guioptions-=T
    endif
 endif
 
