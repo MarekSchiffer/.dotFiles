@@ -29,15 +29,15 @@ vnoremap <up> <Nop>
 
 " Mapping for ESC key, Touchbar Sucks
 " visual and select mode
-vmap § <esc>
-" insert mode
-imap § <esc>
-" normal mode
-nmap § <esc>
-" Visual mode
-xmap § <esc>
-" Command-line mode
-cmap § <esc>
+"vmap § <esc>
+"" insert mode
+"imap § <esc>
+"" normal mode
+"nmap § <esc>
+"" Visual mode
+"xmap § <esc>
+"" Command-line mode
+"cmap § <esc>
 "vmap jj <esc>
 "imap jj <esc>
 "nmap jj<esc>
@@ -74,16 +74,32 @@ set cursorcolumn
 "Setting up custom behaviours""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-"Setting up search behaviour"""""""""""""""""""""""""""""""""""""""""""""""""
-set incsearch
-set showmatch
-set hlsearch
-
-noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
-" Keep search matches in the middle of the window.
-nnoremap n nzzzv
-nnoremap N Nzzzv
-
+""Setting up search behaviour"""""""""""""""""""""""""""""""""""""""""""""""""
+"set incsearch
+"set showmatch "Jumps to the opening bracket when closing itx
+"set hlsearch  "highlights all search results
+"
+""highlight CurSearch guibg=purple
+"highlight CurSearch ctermbg=green
+"
+"function! HighlightCurrentMatch()
+"    let col = col(".") - 1
+"    let endCol = searchpos(getreg("/"), "cne")[1] + 1
+"    let line = line(".")
+"    let matchPat = '/\%' . line . 'l\%>' . col . 'c\%<' . endCol . 'c/'
+"    echomsg matchPat
+"
+"    3match none
+"    exe ':3match CurSearch ' . matchPat
+"endfunction
+"
+""remove highlighted searches
+"noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
+"
+"" Keep search matches in the middle of the window.
+"nnoremap n nzzzv
+"nnoremap N Nzzzv
+"
 "Folds"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "save folds and load them automatically
 autocmd BufWinLeave .* mkview
@@ -129,7 +145,8 @@ nnoremap <m-up> :resize +3<cr>
 set tabstop=4
 set softtabstop=4
 set shiftwidth=8
-set noexpandtab
+"set noexpandtab "Uses tabs instead of whitespaces
+set expandtab "Uses spaces instead of tabs
 
 "Cursorline"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Only show cursorline in the current window and in normal mode.
@@ -174,7 +191,7 @@ augroup trailing
 augroup END
 
 " Clean trailing " whitespace"""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>ww my:%s/\s\+$//<cr>:let @/=''<cr>`z
+nnoremap <leader>ww mp:%s/\s\+$//<cr>:let @/=''<cr>normal!`ep
 
 "Backups""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -326,6 +343,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'powerline/powerline' , {'rtp': 'powerline/bindings/vim/'}
 Plugin 'tpope/vim-surround'
+Plugin 'tomasiser/vim-code-dark'
 Plugin 'latex-box-team/latex-box'
 "The following plugins are required for snippets
 Plugin 'tomtom/tlib_vim'
@@ -352,6 +370,7 @@ else
       set t_Co=256
       "colorscheme murphy
       colorscheme hemisu
+      "colorscheme codedark
 	  set background=dark
       "colorscheme peachpuff "George Hotz Ugly as fuck!
 	  highlight Comment ctermfg=white
@@ -361,6 +380,40 @@ endif
 
 "Setting up Plugins""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:pymode_python = 'python3'
+
+
+"Setting up search behaviour"""""""""""""""""""""""""""""""""""""""""""""""""
+"Search with the highlight feature needs to be behind the colorscheme""""""""
+set incsearch
+set showmatch "Jumps to the opening bracket when closing itx
+set hlsearch  "highlights all search results
+
+"highlight CurSearch guibg=purple
+if has("gui_running")
+  highlight CurSearch guibg=green
+else
+  highlight CurSearch ctermbg=24
+endif
+
+function! HighlightCurrentMatch()
+    let col = col(".") - 1
+    let endCol = searchpos(getreg("/"), "cne")[1] + 1
+    let line = line(".")
+    let matchPat = '/\%' . line . 'l\%>' . col . 'c\%<' . endCol . 'c/'
+    echomsg matchPat
+
+    3match none
+    exe ':3match CurSearch ' . matchPat
+endfunction
+
+"remove highlighted searches
+noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
+
+" Keep search matches in the middle of the window.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+
 
 "Setting up Powerline for GUI and Terminal"""""""""""""""""""""""""""""""""
 
@@ -397,7 +450,15 @@ augroup ft_asm
     au FileType asm setlocal noexpandtab shiftwidth=8 tabstop=8 softtabstop=8
 augroup END
 
-" C
+" Assembly x_86
+
+augroup ft_s
+    au!
+    au FileType s setlocal foldmethod=marker foldmarker={,}
+    au FileType s setlocal ts=2 sts=2 sw=2 expandtab
+augroup END
+
+" tex
 
 augroup ft_tex
 	au!
@@ -405,17 +466,42 @@ augroup ft_tex
 	au FileType tex setlocal tw=125
 augroup END
 
+" c
+
 augroup ft_c
     au!
     au FileType c setlocal foldmethod=marker foldmarker={,}
-    au FileType c setlocal ts=8 sts=8 sw=8 noexpandtab
+    au FileType c setlocal ts=2 sts=2 sw=2 expandtab
+"    au FileType c setlocal ts=3 sts=3 sw=6 noexpandtab
 augroup END
 
-" C++
+" c++
 
 augroup ft_cpp
     au!
     au FileType cpp setlocal foldmethod=marker foldmarker={,}
     au FileType cpp setlocal ts=4 sts=4 sw=8 noexpandtab
+augroup END
+
+" Python
+
+augroup ft_py
+    au!
+    au FileType py setlocal foldmethod=marker foldmarker={,}
+    au FileType py setlocal ts=2 sts=2 sw=2 expandtab
+augroup END
+
+" HTML
+augroup ft_html
+    au!
+    au FileType html setlocal foldmethod=marker foldmarker={,}
+    au FileType html setlocal ts=2 sts=2 sw=2 expandtab
+augroup END
+
+" CSS
+augroup ft_css
+    au!
+    au FileType css setlocal foldmethod=marker foldmarker={,}
+    au FileType css setlocal ts=3 sts=3 sw=3 noexpandtab
 augroup END
 
