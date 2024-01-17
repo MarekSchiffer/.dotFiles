@@ -44,6 +44,8 @@ vnoremap <up> <Nop>
 
 "<leader>§
 
+set ttimeoutlen=100
+
 " Snimpate new parser
 let g:snipMate = { 'snippet_version' : 1 }
 
@@ -69,7 +71,7 @@ set showbreak=↪
 "Set CursorLine and Cursorcolumn """"""""""""""""""""""""""""""""""""""""""
 set cursorline
 set cursorcolumn
-"set colorcolumn=81
+set colorcolumn=81
 
 "Setting up custom behaviours""""""""""""""""""""""""""""""""""""""""""""""""
 
