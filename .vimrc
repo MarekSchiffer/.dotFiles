@@ -46,6 +46,9 @@ vnoremap <up> <Nop>
 
 set ttimeoutlen=100
 
+"Use bash shell for vim. Necessary for LaTeX Box at the moment
+set shell=/opt/homebrew/bin/bash
+
 " Snimpate new parser
 let g:snipMate = { 'snippet_version' : 1 }
 
@@ -67,7 +70,7 @@ set list
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set showbreak=↪
 "Set Numbers"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-:set nu
+set nu
 "Set CursorLine and Cursorcolumn """"""""""""""""""""""""""""""""""""""""""
 set cursorline
 set cursorcolumn
@@ -76,32 +79,6 @@ set colorcolumn=81
 "Setting up custom behaviours""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-""Setting up search behaviour"""""""""""""""""""""""""""""""""""""""""""""""""
-"set incsearch
-"set showmatch "Jumps to the opening bracket when closing itx
-"set hlsearch  "highlights all search results
-"
-""highlight CurSearch guibg=purple
-"highlight CurSearch ctermbg=green
-"
-"function! HighlightCurrentMatch()
-"    let col = col(".") - 1
-"    let endCol = searchpos(getreg("/"), "cne")[1] + 1
-"    let line = line(".")
-"    let matchPat = '/\%' . line . 'l\%>' . col . 'c\%<' . endCol . 'c/'
-"    echomsg matchPat
-"
-"    3match none
-"    exe ':3match CurSearch ' . matchPat
-"endfunction
-"
-""remove highlighted searches
-"noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
-"
-"" Keep search matches in the middle of the window.
-"nnoremap n nzzzv
-"nnoremap N Nzzzv
-"
 "Folds"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "save folds and load them automatically
 autocmd BufWinLeave .* mkview
@@ -128,6 +105,7 @@ set foldtext=MyFoldText()
 set splitbelow
 set splitright
 
+" I nver use this""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
@@ -153,13 +131,13 @@ set expandtab "Uses spaces instead of tabs
 "Cursorline"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Only show cursorline in the current window and in normal mode.
 
-augroup cline
-    au!
-    au WinLeave,InsertEnter * set nocursorline
-    au WinLeave,InsertEnter * set nocursorcolumn
-    au WinEnter,InsertLeave * set cursorline
-    au WinEnter,InsertEnter * set cursorcolumn
-augroup END
+"augroup cline
+"    au!
+"    au WinLeave,InsertEnter * set nocursorline
+"    au WinLeave,InsertEnter * set nocursorcolumn
+"    au WinEnter,InsertLeave * set cursorline
+"    au WinEnter,InsertEnter * set cursorcolumn
+"augroup END
 
 "Wildmenu completion""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -230,15 +208,15 @@ command! -bang WQ wq<bang>
 "Some new functionality and hacks""""""""""""""""""""""""""""""""""""""""""""
 
 "Scrooloose hack (visualizes * and "#)"""""""""""""""""""""""""""""""""""""""""
-function! s:VSetSearch()
-  let temp = @@
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@ = temp
-endfunction
-
-vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
-vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+"function! s:VSetSearch()
+"  let temp = @@
+"  norm! gvy
+"  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+"  let @@ = temp
+"endfunction
+"
+"vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+"vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 "Make sure Vim returns to the same line when you reopen a " file.""""""""""""""
 augroup line_return
@@ -371,8 +349,8 @@ else
       syntax on
       set t_Co=256
       "colorscheme murphy
-      colorscheme hemisu
-      "colorscheme codedark
+      "colorscheme hemisu
+      colorscheme codedark
 	  set background=dark
       "colorscheme peachpuff "George Hotz Ugly as fuck!
 	  highlight Comment ctermfg=white
@@ -436,14 +414,18 @@ endif
 " The <CR> stands for Character Return i.e.Enter"""""""""""""""""""""""""""
 no <leader>N :NERDTree<CR>
 
+
 "Letting .tex files be reconized""""""""""""""""""""""""""""""""""""""""""""
 let g:tex_flavor='latex'
 
 let g:LatexBox_latexmk_async=1
+"let g:LatexBox_latexmk_env = 'latexmk -pdf'
+let g:LatexBox_latexmk_options = '-pdf -interaction=nonstopmode'
 let g:LatexBox_latexmk_preview_continuously=1
-let g:LatexBox_quickfix=2
-"let g:Tex_GotoError=0    "Prevent LaTeX tmk to jump intro Warning split
-"let g:Tex_GotoWarning=0    "Prevent LaTeX tmk to jump intro Warning split
+let g:LatexBox_verbose=1
+let g:LatexBox_quickfix=1
+let g:Tex_GotoError=1    "Prevent LaTeX tmk to jump intro Warning split
+let g:Tex_GotoWarning=1    "Prevent LaTeX tmk to jump intro Warning split
 "Filespecific Settings"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Assembly
 
@@ -482,7 +464,8 @@ augroup END
 augroup ft_cpp
     au!
     au FileType cpp setlocal foldmethod=marker foldmarker={,}
-    au FileType cpp setlocal ts=4 sts=4 sw=8 noexpandtab
+    au FileType cpp setlocal ts=2 sts=2 sw=2 expandtab
+"    au FileType cpp setlocal ts=4 sts=4 sw=8 noexpandtab
 augroup END
 
 " Python
